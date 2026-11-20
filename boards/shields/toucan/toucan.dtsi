@@ -2,6 +2,7 @@
 #include <dt-bindings/zmk/input_transform.h>
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <physical_layouts.dtsi>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
 
 
 / {
@@ -93,6 +94,15 @@
 };
 
 / {
+    input_processors {
+        touchpad_right_click: touchpad_right_click {
+            compatible = "zmk,input-processor-code-mapper";
+            #input-processor-cells = <0>;
+            type = <INPUT_EV_KEY>;
+            map = <INPUT_BTN_0 INPUT_BTN_1>;
+        };
+    };
+
     split_inputs {
         #address-cells = <1>;
         #size-cells = <0>;
@@ -109,11 +119,18 @@
         device = <&glidepoint_split>;
         input-processors = <&zip_xy_scaler 250 100>;
         scroller {
-            layers = <1 2>;
+            layers = <1>;
             input-processors = <
                 &zip_xy_to_scroll_mapper
                 &zip_scroll_scaler 1 5
                 &zip_scroll_transform INPUT_TRANSFORM_X_INVERT
+            >;
+        };
+        sym_pointer {
+            layers = <2>;
+            input-processors = <
+                &touchpad_right_click
+                &zip_xy_scaler 250 100
             >;
         };
     };
