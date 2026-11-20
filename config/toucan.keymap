@@ -9,6 +9,7 @@
 #define ADJ  3
 #define MAC 4
 #define POPOS 5
+#define WINDOWS 6
 
 / {
     conditional_layers {
@@ -35,6 +36,14 @@
 
             bindings = <&bt BT_SEL 1>, <&to MAC>;
         };
+
+        windows_host: windows_host {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            display-name = "WINDOWS Host";
+
+            bindings = <&bt BT_SEL 2>, <&to WINDOWS>;
+        };
     };
 
     keymap {
@@ -53,19 +62,19 @@
         nav {
             display-name = "NAV";
             bindings = <
-                &kp CAPS   &kp N1          &kp N2       &kp N3       &kp N4       &kp N5        &kp N6       &kp N7    &kp N8    &kp N9        &kp N0 &kp BSPC
-                &kp LSHFT  &trans          &kp PSCRN    &trans       &trans        &trans       &kp LEFT     &kp DOWN  &kp UP    &kp RIGHT     &trans &trans
-                &kp LCTRL  &studio_unlock  &trans       &trans       &popos_host   &mac_host    &kp RC(LEFT) &kp PG_DN &kp PG_UP &kp RC(RIGHT) &trans &trans
-                                                                    &kp LGUI &trans &kp SPACE   &kp RET &trans &kp RALT
+                &kp CAPS   &kp N1          &kp N2       &kp N3       &kp N4       &kp N5          &kp N6       &kp N7    &kp N8    &kp N9        &kp N0 &kp BSPC
+                &kp LSHFT  &trans          &kp PSCRN    &trans       &trans        &windows_host  &kp LEFT     &kp DOWN  &kp UP    &kp RIGHT     &trans &trans
+                &kp LCTRL  &studio_unlock  &trans       &trans       &popos_host   &mac_host      &kp RC(LEFT) &kp PG_DN &kp PG_UP &kp RC(RIGHT) &trans &trans
+                                                                    &kp LGUI &trans &kp SPACE     &kp RET &trans &kp RALT
             >;
         };
 
         sym {
             display-name = "SYM";
             bindings = <
-                &kp TAB   &kp N1    &kp N2    &kp N3    &kp N4    &kp N5      &kp N6    &kp N7    &kp N8    &kp N9    &kp N0   &kp BSPC
-                &kp LSHFT &trans    &trans    &trans    &trans    &trans      &kp MINUS &kp EQUAL &kp LBRC  &kp RBRC  &kp BSLH &kp GRAVE
-                &kp LCTRL &trans    &trans    &trans    &trans    &trans      &kp MINUS &kp EQUAL &kp LBRC  &kp RBRC  &kp BSLH &kp GRAVE
+                &kp TAB   &kp N1    &kp N2    &kp N3    &kp N4    &kp N5      &kp N6    &kp N7        &kp N8        &kp N9        &kp N0   &kp BSPC
+                &kp LSHFT &trans    &trans    &trans    &trans    &trans      &kp MINUS &kp LS(EQUAL) &kp LBRC      &kp RBRC      &kp BSLH &kp GRAVE
+                &kp LCTRL &trans    &trans    &trans    &trans    &trans      &kp MINUS &kp EQUAL     &kp LS(LBRC)  &kp LS(RBRC)  &kp BSLH &kp GRAVE
                                               &kp LGUI &trans &kp SPACE       &kp RET &trans &kp RALT
             >;
         };
@@ -92,6 +101,16 @@
 
         popos {
             display-name = "POP-OS";
+            bindings = <
+                &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
+                &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
+                &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
+                                &trans &trans &mt LCTRL SPACE  &trans &trans &trans
+            >;
+        };
+
+        windows {
+            display-name = "WINDOWS";
             bindings = <
                 &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
                 &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
